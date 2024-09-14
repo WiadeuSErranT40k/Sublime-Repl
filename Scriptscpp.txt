@@ -1,0 +1,140 @@
+cpp.sublime-build
+====================================
+{
+	"shell_cmd": "g++ $file_name -o $file_base_name $$ start cmd /k $file_base_name ^& pause ^& exit",
+	"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+	"working_dir" : "$file_path",
+	"selector": "source.c++",
+	"shell": "true",
+
+	"variants":
+	[
+		{
+			"name": "Run Base",
+			"shell_cmd": "g++ $file_name -o $file_base_name && start cmd /k $file_base_name ^& pause ^& exit"
+		}
+	]
+}
+====================================
+{
+        "keys": ["ctrl+alt+c"], 
+        "command": "build", 
+        "args": {"build_system": "Packages/User/cpp.sublime-build"
+        }
+}
+====================================
+Default.sublime-commands	-- C:\Users\User\AppData\Roaming\Sublime Text\Packages\SublimeREPL\config\Cpp
+====================================
+[
+    {
+        "caption": "SublimeREPL: C++ - RUN current file",
+        "command": "run_existing_window_command", 
+        "args": {
+            "id": "repl_cpp_run",
+            "file": "Packages/Cpp/Main.sublime-menu"
+        }
+    }
+]
+====================================
+Main.sublime-menu
+C:\Users\User\AppData\Roaming\Sublime Text\Packages\SublimeREPL\config\Cpp  
+-- El archivo .exe contendrá en su nombre ".cpp" (es opcional)
+====================================
+{
+    "id": "tools",
+    "children": [
+        {
+            "caption": "SublimeREPL",
+            "mnemonic": "R",
+            "id": "SublimeREPL",
+            "children": [
+                {
+                    "caption": "C++",
+                    "id": "Cpp",
+                    "children": [                        
+			{
+                            "command": "repl_open",
+                            "caption": "C++ - RUN current file",
+                            "id": "repl_cpp_run",
+                            "args": {
+                                "type": "subprocess",
+                                "encoding": "utf8",
+                                "cmd": [
+                                    "cmd",
+                                    "/c",
+                                    "g++",
+                                    "$file",
+                                    "-o",
+                                    "$file.exe",
+				    "2>NUL",
+                                    "&",
+                                    "$file.exe"
+                                ],
+                                "cwd": "$file_path",
+                                "syntax": "Packages/C++/C++.tmLanguage",
+                                "external_id": "cpp"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+====================================
+{
+    "id": "tools",
+    "children": [
+        {
+            "caption": "SublimeREPL",
+            "mnemonic": "R",
+            "id": "SublimeREPL",
+            "children": [
+                {
+                    "caption": "C++",
+                    "id": "Cpp",
+                    "children": [
+                        {
+                            "command": "repl_open",
+                            "caption": "C++ - RUN current file",
+                            "id": "repl_cpp_run",
+                            "args": {
+                                "type": "subprocess",
+                                "encoding": "utf8",
+                                "cmd": [
+                                    "powershell",
+                                    "-ExecutionPolicy",
+                                    "Bypass",
+                                    "-File",
+                                    "C:\\Users\\User\\Desktop\\constructor.ps1",
+                                    "$file"
+                                ],
+                                "cwd": "$file_path",
+                                "syntax": "Packages/C++/C++.tmLanguage",
+                                "external_id": "cpp"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+====================================
+{
+        "keys": ["ctrl+alt+c"],
+        "command": "run_existing_window_command",
+        "args": {
+            "id": "repl_cpp_run",
+            "file": "config/Cpp/Main.sublime-menu"
+        }
+    }
+====================================
+constructor.ps1     -- Este archivo quita el .cpp del .exe y lo direcciona a su ubicación actual, recomendable colocarlo 
+====================================
+$sourceFile = $args[0]
+$baseName = [System.IO.Path]::GetFileNameWithoutExtension($sourceFile)
+$outputFile = "$($PSScriptRoot)\$($baseName).exe"
+
+g++ $sourceFile -o $outputFile 2> $null
+Start-Process -FilePath $outputFile -NoNewWindow -Wait
