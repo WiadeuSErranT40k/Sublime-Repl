@@ -1,0 +1,96 @@
+lua.sublime-build	Por defecto suele ser C:\Users\User\AppData\Roaming\Sublime Text 3\Packages
+=====================================================================================================================
+{
+    "cmd": ["lua", "$file"],
+    "selector": "source.lua",
+    "file_regex": "^(...*?):([0-9]*):?([0-9]*)",
+    "working_dir": "${file_path}",
+    "encoding": "utf-8"
+}
+=====================================================================================================================
+Key-bindings
+=====================================================================================================================
+{"keys": ["ctrl+alt+h"], "command": "build", "args": {"build_system": "Packages/User/lua.sublime-build"}}
+=====================================================================================================================
+Main.sublime-menu
+=====================================================================================================================
+[
+    {
+        "id": "tools",
+        "children": [
+            {
+                "caption": "SublimeREPL",
+                "mnemonic": "R",
+                "id": "SublimeREPL",
+                "children": [
+                    {
+                        "caption": "Lua",
+                        "id": "repl_lua",
+                        "mnemonic": "L",
+                        "children": [
+                            {
+                                "command": "repl_open",
+                                "caption": "Lua",
+                                "id": "repl_lua",
+                                "args": {
+                                    "type": "subprocess",
+                                    "encoding": "utf8",
+                                    "cmd": ["lua", "-i"],
+                                    "cwd": "$file_path",
+                                    "external_id": "lua",
+                                    "syntax": "Packages/Lua/Lua.tmLanguage"
+                                }
+                            },
+                            {
+                                "command": "repl_open",
+                                "caption": "Lua - RUN current file",
+                                "id": "repl_lua_run",
+                                "args": {
+                                    "type": "subprocess",
+                                    "encoding": "utf8",
+                                    "cmd": [
+                                        "C:\\lua\\lua54.exe",
+                                        "$file_basename"
+                                    ],
+                                    "cwd": "$file_path",
+                                    "syntax": "Packages/Lua/Lua.tmLanguage",
+                                    "external_id": "lua"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
+=====================================================================================================================
+Default.sublime-commands
+=====================================================================================================================
+[
+    {
+        "caption": "SublimeREPL: Lua",
+        "command": "run_existing_window_command", 
+        "args": {
+            "id": "repl_lua", 
+            "file": "config/Lua/Main.sublime-menu"
+        }
+    },
+    {
+        "caption": "SublimeREPL: Lua - RUN current file",
+        "command": "run_existing_window_command", 
+        "args": {
+            "id": "repl_lua_run", 
+            "file": "config/Lua/Main.sublime-menu"
+        }
+    }
+]
+=====================================================================================================================
+Keymap
+=====================================================================================================================
+    {"keys": ["ctrl+alt+l"], "command": "run_existing_window_command", "args": {"id": "repl_lua_run","file": "config/Lua/Main.sublime-menu"}},
+
+
+
+
+
